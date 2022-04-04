@@ -171,9 +171,9 @@ class Arm():
         return out
 
     def shutdown(self):
-        print 'Shutting down Arm...'
+        print('Shutting down Arm...')
         self._is_shutdown = True
-        print 'Arm released!'
+        print('Arm released!')
         return True
 
 
