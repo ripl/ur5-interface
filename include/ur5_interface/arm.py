@@ -107,9 +107,9 @@ class Arm():
         self._default_link._group.set_joint_value_target(joint_angles)
         numTries = 0
         while numTries < 5:
-            plan = self._default_link._group.plan()
+            success, plan, _, _ = self._default_link._group.plan()
             numTries+=1
-            if len(plan.joint_trajectory.points) > 0:
+            if success:
                 if self.verbose: print('succeeded in %d tries' % numTries)
                 return True, plan
         if self.verbose: print("Planning failed")
@@ -137,10 +137,10 @@ class Arm():
 
         numTries = 0;
         while numTries < 5:
-            plan = group.plan()
+            success, plan, _, _ = group.plan()
             numTries += 1
             # check that planning succeeded
-            if len(plan.joint_trajectory.points) > 0:
+            if success:
                 if self.verbose: print('succeeded in %d tries' % numTries)
                 return True, plan
          # if we get here, we couldn't find a plan in max number of tries
@@ -150,14 +150,14 @@ class Arm():
     def _plan_cartesian_path(self, group, waypoints):
         numTries = 0;
         while numTries < 5:
-            plan, fraction = group.compute_cartesian_path(
+            success, plan, _, _ = group.compute_cartesian_path(
                 waypoints,   # waypoints to follow
                 0.01,        # eef_step
                 0.0          # jump_threshold
             )
             numTries += 1
             # check that planning succeeded
-            if len(plan.joint_trajectory.points) > 0:
+            if success:
                 if self.verbose: print('succeeded in %d tries' % numTries)
                 return True, plan
          # if we get here, we couldn't find a plan in max number of tries
